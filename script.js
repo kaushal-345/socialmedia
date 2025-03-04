@@ -38,7 +38,7 @@ function showProfile(id) {
 }
 
 function showAlbum(id) {
-  let str="<h3>My Albums</h3>";                                                         //let str is not done for above func, why?
+  let str="<h3>My Albums</h3>";         //let str is not done for above func, why?   : coz its not iterated over, so direct declare 
   fetch(`https://jsonplaceholder.typicode.com/albums/?userId=${id}`)
   .then((res) => res.json())
   .then((data) => {
@@ -54,15 +54,16 @@ function showAlbum(id) {
 }
 
 function showTodo(id) {
-  let str="<h3>My To Do list</h3>";                                                         //let str is not done for above func, why?
+  let str="<h3>My To Do list</h3>";                                                         
   fetch(`https://jsonplaceholder.typicode.com/todos/?userId=${id}`)
   .then((res) => res.json())
   .then((data) => {
   data &&
     data.map((value) => {
-      str += `<div class='card p-1 m-2'>
-    <b><li>${value.title}</li></b>
-    <p>${value.completed}</p>
+      str += `<div>
+    <b class='${value.completed ? 'text-success' : 'text-danger'}'>
+      <input type='checkbox' ${value.completed && "checked"}>${value.title}
+    </b>
     </div>`;
     });
   content.innerHTML = str;
@@ -82,11 +83,11 @@ function showHome() {
      <div class='row'>
       <div class='d-flex'>
        <div class='p-2'>
-         <p onclick='showPosts(${userId})'>Home</p>
-         <p onclick='showAlbum(${userId})'>Album</p>
-         <p onclick='showProfile(${userId})'>Profile</p>
-         <p onclick='showTodo(${userId})'>To Do</p>
-         <p onclick='showLogin()'>Logout</p>
+         <p class="click" onclick='showPosts(${userId})'>Home</p>
+         <p class="click" onclick='showAlbum(${userId})'>Album</p>
+         <p class="click" onclick='showProfile(${userId})'>Profile</p>
+         <p class="click" onclick='showTodo(${userId})'>To Do</p>
+         <p class="click" onclick='showLogin()'>Logout</p>
        </div>
        <div class='p-2' id='content'></div>
       </div>
@@ -98,7 +99,9 @@ function showHome() {
      </div>
    </div>
   `;
+  let name = selUser.options[selUser.selectedIndex].text
   root.innerHTML = str;
+  username.innerHTML=name
   showPosts(userId);
 }
 
