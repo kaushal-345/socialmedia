@@ -44,7 +44,7 @@ function showHome() {
      <div class='row'>
       <div class='d-flex justify-content-between bg-primary text-light'>
        <div>My Social Media</div>
-       <div id='username'></div>
+       <div id='username'>${userId}</div>
       </div>
      </div>
      <div class='row'>
