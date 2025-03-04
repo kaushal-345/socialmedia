@@ -7,15 +7,15 @@ function showLogin() {
 }
 
 function showPosts(id) {
-  let str = "";
+  let str = "<h3>My Post</h3>";
   //console.log(`https://jsonplaceholder.typicode.com/posts/userId=${id}`)
   fetch(`https://jsonplaceholder.typicode.com/posts/?userId=${id}`)
     .then((res) => res.json())
     .then((data) => {
       data &&
         data.map((value) => {
-          str += `<div>
-        <b>${value.title}</b>
+          str += `<div class='card p-1 m-2'>
+        <b><li>${value.title}</li></b>
         <p>${value.body}</p>
         </div>`;
         });
@@ -29,7 +29,7 @@ function showProfile(id) {
     .then((res) => res.json())
     .then((data) => {
       let str = `<div>
-      <b>${data.name}</b>
+      <b><li>${data.name}</li></b>
       <p>${data.email}</p>
       </div>`;
       content.innerHTML = str;
@@ -37,6 +37,38 @@ function showProfile(id) {
     .catch((err) => console.log(err));
 }
 
+function showAlbum(id) {
+  let str="<h3>My Albums</h3>";                                                         //let str is not done for above func, why?
+  fetch(`https://jsonplaceholder.typicode.com/albums/?userId=${id}`)
+  .then((res) => res.json())
+  .then((data) => {
+  data &&
+    data.map((value) => {
+      str += `<div class='card p-1 m-2'>
+    <b><li>${value.title}</li></b>
+    </div>`;
+    });
+  content.innerHTML = str;
+  })
+  .catch((err) => console.log(err));
+}
+
+function showTodo(id) {
+  let str="<h3>My To Do list</h3>";                                                         //let str is not done for above func, why?
+  fetch(`https://jsonplaceholder.typicode.com/todos/?userId=${id}`)
+  .then((res) => res.json())
+  .then((data) => {
+  data &&
+    data.map((value) => {
+      str += `<div class='card p-1 m-2'>
+    <b><li>${value.title}</li></b>
+    <p>${value.completed}</p>
+    </div>`;
+    });
+  content.innerHTML = str;
+  })
+  .catch((err) => console.log(err));
+}
 function showHome() {
   userId = selUser.value;
   let str = `
@@ -51,8 +83,9 @@ function showHome() {
       <div class='d-flex'>
        <div class='p-2'>
          <p onclick='showPosts(${userId})'>Home</p>
-         <p>Album</p>
-          <p onclick='showProfile(${userId})'>Profile</p>
+         <p onclick='showAlbum(${userId})'>Album</p>
+         <p onclick='showProfile(${userId})'>Profile</p>
+         <p onclick='showTodo(${userId})'>To Do</p>
          <p onclick='showLogin()'>Logout</p>
        </div>
        <div class='p-2' id='content'></div>
