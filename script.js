@@ -1,4 +1,4 @@
-let users = [];
+let userId;
 function showLogin() {
   fetch("https://jsonplaceholder.typicode.com/users/")
     .then((res) => res.json())
@@ -7,24 +7,38 @@ function showLogin() {
 }
 
 function showPosts(id) {
-  let str = ""
+  let str = "";
   //console.log(`https://jsonplaceholder.typicode.com/posts/userId=${id}`)
   fetch(`https://jsonplaceholder.typicode.com/posts/?userId=${id}`)
     .then((res) => res.json())
     .then((data) => {
-      data && data.map((value) => {
-        str += `<div>
+      data &&
+        data.map((value) => {
+          str += `<div>
         <b>${value.title}</b>
         <p>${value.body}</p>
         </div>`;
-      });
+        });
+      content.innerHTML = str;
+    })
+    .catch((err) => console.log(err));
+}
+
+function showProfile(id) {
+  fetch(`https://jsonplaceholder.typicode.com/users/${id}`)
+    .then((res) => res.json())
+    .then((data) => {
+      let str = `<div>
+      <b>${data.name}</b>
+      <p>${data.email}</p>
+      </div>`;
       content.innerHTML = str;
     })
     .catch((err) => console.log(err));
 }
 
 function showHome() {
-  let userId = selUser.value;
+  userId = selUser.value;
   let str = `
    <div class='container-fluid'>
      <div class='row'>
@@ -36,8 +50,9 @@ function showHome() {
      <div class='row'>
       <div class='d-flex'>
        <div class='p-2'>
-         <p>Home</p>
+         <p onclick='showPosts(${userId})'>Home</p>
          <p>Album</p>
+          <p onclick='showProfile(${userId})'>Profile</p>
          <p onclick='showLogin()'>Logout</p>
        </div>
        <div class='p-2' id='content'></div>
